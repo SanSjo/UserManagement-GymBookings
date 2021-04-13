@@ -1,0 +1,54 @@
+﻿@model UserManagement_GymBookings.Models.ViewModel.IndexViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p id="createAjax"></p>
+
+@if (User.IsInRole("Admin"))
+{
+    <div>
+        <p id="fetch">Fetch</p>
+        <a asp-action="Create" class="btn btn-danger"
+           data-ajax="true"
+           data-ajax-method="GET"
+           data-ajax-update="#createAjax"
+           data-ajax-mode="replace">Create Ajax</a>
+    </div>
+}
+
+@if (User.IsInRole("Member"))
+{
+    <form asp-action="Index">
+        <dl class="row">
+            <dt>History</dt>
+            <dd>
+                <input class="form-control" type="checkbox" asp-for="ShowHistory" id="checkbox" />
+            </dd>
+        </dl>
+    </form>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GymClasses.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GymClasses.First().StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GymClasses.First().Duration)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="gymclasses">
+        <partial name="GymClassesPartial" model="@Model.GymClasses" />
+    </tbody>
+
+</table>

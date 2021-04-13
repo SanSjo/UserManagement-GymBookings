@@ -1,0 +1,42 @@
+﻿@model IEnumerable<UserManagement_GymBookings.Models.ViewModel.GymClassViewModel>
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @if (User.IsInRole("Member"))
+            {
+                <a asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.Name)
+
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Duration)
+        </td>
+
+
+        <td>
+            @if (User.IsInRole("Member"))
+            {
+                <a asp-action="BookingToggle" asp-route-id="@item.Id" class="btn @(item.Attending ? "btn-danger" : "btn-success")">@(item.Attending ? "Cancel" : "Book")</a>
+
+            }
+            @if (User.IsInRole("Admin")) //User.IsInRole = ("Admin")
+            {
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> <span>|</span>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <span>|</span>
+            }
+        </td>
+    </tr>
+}
