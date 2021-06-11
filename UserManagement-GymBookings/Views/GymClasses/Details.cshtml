@@ -46,9 +46,9 @@
 </div>
 
 <tbody>
-        @foreach (var user in UserManager.Users)
+        @foreach (var user in Model.AttendingMembers)
         {
-            @user.UserName
+            @user.ApplicationUser.UserName
         }
     </tbody>
 
